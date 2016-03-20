@@ -1,0 +1,23 @@
+{
+  "name": "es6features",
+  "version": "0.0.1",
+  "description": "Description of ES6 features with examples",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo '=> testing' && ./node_modules/karma/bin/karma start karma.config.js"
+  },
+  "author": "dtomaszewski",
+  "license": "ISC",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^2.4.0",
+    "eslint-config-airbnb": "^6.1.0",
+    "eslint-plugin-react": "^4.2.3",
+    "jasmine-core": "^2.4.1",
+    "jasmine-spec-reporter": "^2.4.0",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^0.2.2",
+    "karma-jasmine": "^0.3.8",
+    "karma-jasmine-html-reporter": "^0.2.0"
+  }
+}
