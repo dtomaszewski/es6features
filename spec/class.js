@@ -49,6 +49,9 @@ describe('Class', () => {
                 return `Great ${this._specialization}`;
             }
 
+            // We use underscored variable _specialization
+            // to hide direct access to variable (it is still possible by object._specialization)
+            // but proper way is to call object.specialization.
             set specialization (newSpecialization) {
                 if (newSpecialization) {
                     this._specialization = newSpecialization;
@@ -67,5 +70,93 @@ describe('Class', () => {
 
         expect(burgerCook.specialization).toBe('Great Bacon burgers');
         expect(cook.specialization).toBe('Great food');
+
+        // We can also get and set _specialization property explicitly which is not proper approach
+        // because it will omit getters and setters of specialization.
+        expect(burgerCook._specialization).toBe('Bacon burgers');
+
+        burgerCook._specialization = 'Hawaii burgers';
+        expect(burgerCook.specialization).toBe('Great Hawaii burgers');
+    });
+
+    it('can inherit from another class', () => {
+        // Parent class
+        class Cook {
+            constructor(specialization) {
+                this.specialization = specialization;
+            }
+
+            makeDish() {
+                return 'Food';
+            }
+
+            get specialization() {
+                return `Great ${this._specialization}`;
+            }
+
+            set specialization (newSpecialization) {
+                this._specialization = newSpecialization;
+            }
+        }
+
+        // To inherit from parent class We use 'extends' keyword.
+        // Child class 'Burger cook' is a Cook.
+        // With inheritance We can reuse all methods from parent class in our child class.
+        class BurgerCook extends Cook {
+            constructor() {
+                // 'super' means constructor of parent class (in this example it is Cook class).
+                super('Burgers');
+            }
+
+            makeBurger() {
+                // We can call other methods of superclass with 'super' keyword.
+                return `Great ${super.makeDish()} - Delicious Burger`;
+            }
+        }
+
+        const cook = new Cook('Pizza');
+        const burgerCook = new BurgerCook();
+
+        expect(burgerCook.specialization).toBe('Great Burgers');
+
+        // Only burger cook has makeBurger method
+        expect(cook.makeBurger).toBeUndefined();
+        expect(burgerCook.makeBurger).toBeDefined();
+        expect(burgerCook.makeBurger()).toBe('Great Food - Delicious Burger');
+
+        // Both instances have makeDish method which is defined in superclass.
+        expect(cook.makeDish()).toBe('Food');
+        expect(burgerCook.makeDish()).toBe('Food');
+    });
+
+    it('calls superclass constructor when there is no constructor in subclass', () => {
+        class Cook {
+            constructor(specialization) {
+                this.specialization = specialization;
+            }
+
+            get specialization() {
+                return `Great ${this._specialization}`;
+            }
+
+            set specialization (newSpecialization) {
+                this._specialization = newSpecialization;
+            }
+        }
+
+        class PizzaCook extends Cook {
+            // If empty constructor will be added here it will be called instead of superclass
+            // constructor and our test will fail. To prevent this problem We should call super().
+
+            makePizza() {
+                return 'Pizza';
+            }
+        }
+
+        // PizzaCook has no constructor, in such case Cook constructor method is called.
+        const pizzaCook = new PizzaCook('Pepperoni');
+
+        expect(pizzaCook.specialization).toBe('Great Pepperoni');
+        expect(pizzaCook.makePizza()).toBe('Pizza');
     });
 });
