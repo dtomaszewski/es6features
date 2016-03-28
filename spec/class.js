@@ -79,6 +79,28 @@ describe('Class', () => {
         expect(burgerCook.specialization).toBe('Great Hawaii burgers');
     });
 
+    it('Can override method of parent class', () => {
+        class Cook {
+            makeDish() {
+                return 'Food';
+            }
+        }
+
+        class BurgerCook extends Cook {
+            makeBurger() {
+                // We don't want to call this.makeDish() because it will be called
+                // in burgerCook context which will cause maximum call stack exceed.
+                return `${super.makeDish()} : Burger`;
+            }
+        }
+
+        const cook = new Cook();
+        const burgerCook = new BurgerCook();
+
+        expect(cook.makeDish()).toBe('Food');
+        expect(burgerCook.makeBurger()).toBe('Food : Burger');
+    });
+
     it('can inherit from another class', () => {
         // Parent class
         class Cook {
@@ -158,5 +180,26 @@ describe('Class', () => {
 
         expect(pizzaCook.specialization).toBe('Great Pepperoni');
         expect(pizzaCook.makePizza()).toBe('Pizza');
+    });
+
+    it('Can check instance of class', () => {
+        class Cook {}
+        class BurgerCook extends Cook {}
+        class PizzaCook extends Cook {}
+
+        const cook = new Cook();
+        const burgerCook = new BurgerCook();
+        const pizzaCook = new PizzaCook();
+
+        // To check if object is an instance of some class We use 'instanceof'.
+        expect(burgerCook instanceof Cook).toBeTruthy();
+        expect(burgerCook instanceof BurgerCook).toBeTruthy();
+        expect(pizzaCook instanceof Cook).toBeTruthy();
+        expect(pizzaCook instanceof PizzaCook).toBeTruthy();
+        expect(cook instanceof Cook).toBeTruthy();
+        expect(cook instanceof Object).toBeTruthy();
+
+        expect(cook instanceof BurgerCook).toBeFalsy();
+        expect(cook instanceof PizzaCook).toBeFalsy();
     });
 });
