@@ -19,4 +19,18 @@ describe('const keyword behavior', () => {
         expect(x).toBe(1);
         expect(doSomething()).toBe(2);
     });
+
+    it('can have properties which can be changed', () => {
+        const x = {
+            y: 1,
+            z: 2
+        };
+
+        // We're not changing x so it is OK.
+        x.y = 3;
+        x.z = 4;
+
+        expect(x.y).toBe(3);
+        expect(x.z).toBe(4);
+    });
 });
