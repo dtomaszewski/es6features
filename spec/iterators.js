@@ -19,4 +19,15 @@ describe('Iterators ', () => {
 
         expect(totalPrice).toBe(30);
     });
+
+    it('uses Symbol to get iterator', () => {
+        const orderPrices = [5, 12, 3, 10];
+        const iterator = orderPrices.values();
+        // Symbol.iterator is a constant which JavaScript runtime sets up,
+        // it gives us access to special method to get iterator object from
+        // each object which is an iterable.
+        const symbolIterator = orderPrices[Symbol.iterator]();
+
+        expect(iterator).toEqual(symbolIterator);
+    });
 });
