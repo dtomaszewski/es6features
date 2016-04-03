@@ -20,11 +20,7 @@ describe('Iterable', () => {
                 };
 
                 if (this.index < this.array.length) {
-                    if (this.index === this.array.length - 1) {
-                        result.value = `and ${this.array[this.index]}`;
-                    } else {
-                        result.value = this.array[this.index];
-                    }
+                    result.value = this.array[this.index];
                     result.done = false;
                     this.index += 1;
                 }
@@ -44,10 +40,10 @@ describe('Iterable', () => {
             // We give access to iterate over our array without giving direct access to it,
             // as long as DishIterator's next() method can make some logic We have iteration
             // totally under control.
-            [Symbol.iterator]() {
-                // Object returned in this method has to have next() method built in.
-                return new DishIterator(this.dishes);
-            }
+        [Symbol.iterator]() {
+            // Object returned in this method has to have next() method built in.
+            return new DishIterator(this.dishes);
+        }
         }
 
         const cook = new Cook();
@@ -64,13 +60,13 @@ describe('Iterable', () => {
         // We can manually get iterator and call next() methods of our iterable object.
         const iterator = cook[Symbol.iterator]();
 
-        expect(text).toBe('Our cook can make Pizza Steak and Burger');
+        expect(text).toBe('Our cook can make Pizza Steak Burger');
         expect(cook[Symbol.iterator]).toEqual(jasmine.any(Function));
         expect(cook[Symbol.iterator]().next).toEqual(jasmine.any(Function));
 
         expect(iterator.next()).toEqual({value: 'Pizza', done: false});
         expect(iterator.next()).toEqual({value: 'Steak', done: false});
-        expect(iterator.next()).toEqual({value: 'and Burger', done: false});
+        expect(iterator.next()).toEqual({value: 'Burger', done: false});
         expect(iterator.next()).toEqual({value: undefined, done: true});
     });
 });
