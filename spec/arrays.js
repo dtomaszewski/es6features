@@ -43,8 +43,8 @@ describe('Arrays', () => {
     });
 
     it('can fill an array using fill method', () => {
-        const pizzaToppings = ['Cheese', 'Olives', 'Bacon'];
-        const pizzaPrices = [10, 15, 20, 25, 30, 35, 40];
+        const pizzaToppings = ['Cheese', 'Olives', 'Bacon', 'Mushrooms', 'Onions'];
+        const pizzaPrices = [10, 15, 20, 25, 30, 35, 40, 45, 50];
         // It overwrites all values in existing array.
         pizzaToppings.fill('Bacon');
         // We can specify start index which means where We'll start with filling
@@ -52,7 +52,40 @@ describe('Arrays', () => {
         // (value on end index is not replaced).
         pizzaPrices.fill(11, 2, 4);
 
-        expect(pizzaToppings).toEqual(['Bacon', 'Bacon', 'Bacon']);
-        expect(pizzaPrices).toEqual([10, 15, 11, 11, 30, 35, 40]);
+        expect(pizzaToppings).toEqual(['Bacon', 'Bacon', 'Bacon', 'Bacon', 'Bacon']);
+        expect(pizzaPrices).toEqual([10, 15, 11, 11, 30, 35, 40, 45, 50]);
+    });
+
+    it('can copy part of array and paste it inside itself using copyWithin method', () => {
+        // I'm not using beforeEach here to increase readability.
+        const pizzaToppings = ['Cheese', 'Olives', 'Bacon', 'Mushrooms', 'Onions'];
+        const pizzaPrices = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+        const burgerPrices = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+        // First parameter is index with target where part of array will be copied.
+        // Second parameter is index which target where to start copying.
+        // Third parameter number of items to copy - this parameter is optional.
+        // In this case We'll copy two parameters from index 0 and paste will begin from index 2.
+        pizzaToppings.copyWithin(2, 0, 2);
+
+        // If third parameter is not specified elements will be copied till end of array.
+        pizzaPrices.copyWithin(3, 1);
+
+        // We can also give negative parameters to operate on indexes from the end of array
+        // In this case We start copying into 4th index from the end and copied array starts
+        // from 6th index from the end.
+        burgerPrices.copyWithin(-4, -6);
+
+        expect(pizzaToppings).toEqual(['Cheese', 'Olives', 'Cheese', 'Olives', 'Onions']);
+        expect(pizzaPrices).toEqual([1, 2, 3, 2, 3, 4, 5, 6, 7]);
+        expect(burgerPrices).toEqual([1, 2, 3, 4, 5, 4, 5, 6, 7]);
+    });
+
+    it('can create an array using \'of\' method', () => {
+        // It is not possible with new Array(10) which will return array with 10 empty items.
+        const pizzaPrice = Array.of(10);
+
+        expect(pizzaPrice).toEqual([10]);
+        expect(pizzaPrice.length).toBe(1);
     });
 });
