@@ -88,4 +88,29 @@ describe('Arrays', () => {
         expect(pizzaPrice).toEqual([10]);
         expect(pizzaPrice.length).toBe(1);
     });
+
+    it('has \'entries\' method which returns an iterator with key-value pair', () => {
+        const pizzaToppings = ['Cheese', 'Olives', 'Bacon'];
+        const entries = pizzaToppings.entries();
+
+        // Each entry value is an array with index and value
+        expect(entries.next().value).toEqual([0, 'Cheese']);
+        expect(entries.next().value).toEqual([1, 'Olives']);
+        expect(entries.next().value).toEqual([2, 'Bacon']);
+        // If We call next over the last element of array We'll receive undefined.
+        expect(entries.next().value).not.toBeDefined();
+    });
+
+    it('has \'keys\' method which returns iterator with keys', () => {
+        const pizzaToppings = ['Cheese', 'Olives', 'Bacon'];
+        const keys = pizzaToppings.keys();
+
+        // It returns only key value
+        expect(keys.next().value).toBe(0);
+        expect(keys.next().value).toBe(1);
+        expect(keys.next().value).toBe(2);
+        // If We call next over the last element of array We'll receive undefined.
+        // Similarly as in 'entries' method
+        expect(keys.next().value).not.toBeDefined();
+    });
 });
