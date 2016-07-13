@@ -1,7 +1,7 @@
 describe('Sets', () => {
     // It is a new data structure added in ES6.
 
-    it('have size property', () => {
+    it('has size property', () => {
         const dishSet = new Set();
 
         // size property allows us to check size of Set
