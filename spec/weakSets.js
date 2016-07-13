@@ -1,12 +1,13 @@
 describe('WeakSets', () => {
   // WeakSets are specific sets which do not have strong pointers.
-  // There are some differences between WeakSet and Set
+  // There are some differences between WeakSet and Set.
 
   it('doesn\'t have all Set properties', () => {
     const weakBurgerSet = new WeakSet();
 
     expect(weakBurgerSet.size).not.toBeDefined();
     expect(weakBurgerSet.entries).not.toBeDefined();
+    expect(weakBurgerSet.keys).not.toBeDefined();
     expect(weakBurgerSet.values).not.toBeDefined();
     expect(weakBurgerSet.forEach).not.toBeDefined();
     expect(weakBurgerSet.clear).not.toBeDefined();
@@ -38,7 +39,7 @@ describe('WeakSets', () => {
     expect(weakBurgerSet.has(baconBurger)).toBe(true);
   });
 
-  it('a', () => {
+  it('is different from Set because it lets garbage collector to clear it\'s items', () => {
     const pizzaSet = new Set();
     const burgerSet = new WeakSet();
 
